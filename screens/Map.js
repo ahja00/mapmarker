@@ -4,14 +4,10 @@ import MapView, { Marker } from 'react-native-maps';
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
 
-export default function Map() {
-  const [location, setLocation] = useState({
-    latitude: 65.0800, 
-    longitude: 25.4800, 
-    latitudeDelta: 0.00922,
-    longitudeDelta: 0.00421,
-  });
+export default function Map({initialLocation}) {
+  const [location, setLocation] = useState(initialLocation)
   const [markers, setMarkers] = useState([]);
+  
 
   
   const getUserLocation = async () => {

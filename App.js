@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar'; 
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import React, { useState, useEffect } from 'react';
 import MainAppBar from './components/MainAppBar.js';
@@ -18,12 +18,20 @@ const icons = {
 
 export default function App() {
   const [icon, setIcon] = useState(icons.location_not_know);
+  const [userLocation, setUserLocation] = useState(null); 
 
   const getUserPosition = async () => {
     try {
       setIcon(icons.location_searching);
       const position = await Location.getCurrentPositionAsync({
         accuracy: Location.Accuracy.High, 
+      });
+
+      setUserLocation({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        latitudeDelta: 0.00922,  
+        longitudeDelta: 0.00421,
       });
 
       setIcon(icons.location_found);
@@ -44,7 +52,7 @@ export default function App() {
         backgroundColor={settings.background} 
         icon={icon}
       />
-      <Map />
+    
       {userLocation && <Map initialLocation={userLocation} />}
       <StatusBar style="auto" />
     </PaperProvider>
